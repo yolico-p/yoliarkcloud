@@ -1,0 +1,80 @@
+name: Build FrankenPHP Static Binary
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '版本号（如 v1.0.0）'
+        required: false
+        default: 'dev'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 构建静态二进制
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./static-build.Dockerfile
+          push: false
+          load: true
+          tags: yoliarkcloud-static:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: 从镜像提取二进制
+        run: |
+          docker create --name yoli-tmp yoliarkcloud-static:latest
+          docker cp yoli-tmp:/go/src/app/dist/frankenphp-linux-x86_64 ./yoliarkcloud
+          docker rm yoli-tmp
+          chmod +x ./yoliarkcloud
+          ls -lh ./yoliarkcloud
+          file ./yoliarkcloud
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: yoliarkcloud-linux-amd64
+          path: ./yoliarkcloud
+          retention-days: 30
+
+      - name: 发布 Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./yoliarkcloud
+          name: YoliArkCloud ${{ github.ref_name }}
+          body: |
+            ## YoliArkCloud ${{ github.ref_name }}
+
+            ### 使用方法
+
+            ```bash
+            # 下载二进制
+            chmod +x yoliarkcloud
+
+            # 运行（自动 HTTPS）
+            ./yoliarkcloud php-server --domain your-domain.com
+
+            # 开发模式（HTTP only）
+            ./yoliarkcloud php-server
+            ```
+
+            ### 数据目录
+
+            - 数据文件在当前工作目录的 `storage/` 下
+            - 首次运行访问 `http://localhost/install.php` 完成安装
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

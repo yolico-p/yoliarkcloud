@@ -1,0 +1,450 @@
+/* =========================================
+   移动端预览 UI 独立适配层
+   - 不修改原 preview.css，通过 body.pv-mobile-mode 提升优先级覆盖
+   - 仅在触摸设备或窄屏 (<=768px) 启用
+   - 顶部 header 常驻 / 隐藏边缘箭头 / 注入底部操作栏 / 触摸热区优化
+   ========================================= */
+
+/* PC 端默认隐藏移动端专用元素 */
+.pv-mobile-bar,
+.pv-mobile-hint {
+    display: none;
+}
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) {
+    body.pv-mobile-mode .preview-overlay {
+        background: rgba(0, 0, 0, 0.96);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* ===== 顶部工具栏：常驻显示，禁用灵动岛收起 ===== */
+    body.pv-mobile-mode .preview-overlay.active .preview-header {
+        transform: translateX(-50%) translateY(0) !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        top: calc(env(safe-area-inset-top, 0px) + 8px);
+        max-width: calc(100% - 16px);
+        min-width: 0;
+        height: 48px;
+        padding: 0 6px 0 10px;
+        gap: 8px;
+        transition: none !important;
+    }
+
+    body.pv-mobile-mode .preview-overlay.active .preview-header.island-collapsed {
+        transform: translateX(-50%) translateY(0) !important;
+        opacity: 1 !important;
+    }
+
+    body.pv-mobile-mode .preview-overlay.active .preview-header.island-collapsed .preview-file-name,
+    body.pv-mobile-mode .preview-overlay.active .preview-header.island-collapsed .preview-file-size {
+        opacity: 1;
+    }
+
+    body.pv-mobile-mode .preview-island-hotzone {
+        display: none;
+    }
+
+    body.pv-mobile-mode .preview-file-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+
+    body.pv-mobile-mode .preview-file-name {
+        font-size: 13px;
+        max-width: 40vw;
+    }
+
+    body.pv-mobile-mode .preview-file-size {
+        display: none;
+    }
+
+    body.pv-mobile-mode .preview-action-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    body.pv-mobile-mode .preview-action-btn:active {
+        transform: scale(0.92);
+    }
+
+    /* ===== 隐藏原左右悬浮箭头（触摸热区过小，由底部栏替代） ===== */
+    body.pv-mobile-mode .preview-nav-arrow {
+        display: none !important;
+    }
+
+    /* ===== 主体内容区：上下留出空间 ===== */
+    body.pv-mobile-mode .preview-body {
+        padding: 64px 0 88px;
+    }
+
+    body.pv-mobile-mode .preview-body.pdf-mode,
+    body.pv-mobile-mode .preview-body.word-mode,
+    body.pv-mobile-mode .preview-body.excel-mode {
+        padding: 64px 0 88px;
+    }
+
+    /* ===== 移动端底部操作栏（导航 / 下载 / 关闭） ===== */
+    body.pv-mobile-mode .pv-mobile-bar {
+        display: flex;
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+        z-index: 40;
+        align-items: center;
+        justify-content: space-around;
+        gap: 4px;
+        height: 56px;
+        padding: 0 8px;
+        border-radius: 999px;
+        background: rgba(22, 22, 28, 0.82);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(20px);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    }
+
+    body.pv-mobile-mode .preview-overlay.active .pv-mobile-bar {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    .pv-mobile-bar-btn {
+        flex: 0 0 auto;
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: background 0.15s ease, transform 0.15s ease;
+    }
+
+    .pv-mobile-bar-btn:active:not(:disabled) {
+        background: rgba(255, 255, 255, 0.15);
+        transform: scale(0.92);
+    }
+
+    .pv-mobile-bar-btn:disabled {
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    .pv-mobile-bar-btn.pv-mobile-close {
+        background: rgba(239, 68, 68, 0.18);
+        color: #fca5a5;
+    }
+
+    .pv-mobile-bar-btn.pv-mobile-close:active {
+        background: rgba(239, 68, 68, 0.32);
+    }
+
+    /* ===== 原底部工具栏上移，避免与移动端操作栏重叠 ===== */
+    body.pv-mobile-mode .preview-footer {
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 76px);
+        max-width: calc(100% - 12px);
+        padding: 6px 8px;
+        gap: 4px;
+        row-gap: 4px;
+    }
+
+    body.pv-mobile-mode .pv-image-toolbar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        gap: 4px;
+        max-width: 100%;
+    }
+
+    body.pv-mobile-mode .pv-image-toolbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    body.pv-mobile-mode .pv-tool-btn,
+    body.pv-mobile-mode .pv-icon-btn {
+        height: 38px;
+        min-width: 38px;
+        padding: 0 10px;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    body.pv-mobile-mode .pv-icon-btn {
+        padding: 0;
+    }
+
+    body.pv-mobile-mode .pv-image-zoom-text {
+        min-width: 38px;
+        font-size: 11px;
+    }
+
+    /* ===== 视频控件上移，适配底部双栏 ===== */
+    body.pv-mobile-mode .pv-video-controls {
+        width: calc(100% - 16px);
+        padding: 10px 12px;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 76px);
+    }
+
+    body.pv-mobile-mode .pv-video-controls-left,
+    body.pv-mobile-mode .pv-video-controls-right {
+        gap: 4px;
+    }
+
+    body.pv-mobile-mode .pv-volume-slider {
+        width: 56px;
+    }
+
+    body.pv-mobile-mode .pv-video-controls-left .pv-volume-slider {
+        min-width: 56px;
+    }
+
+    body.pv-mobile-mode #previewVideo {
+        object-fit: contain;
+    }
+
+    /* ===== 音频播放器移动端布局 ===== */
+    body.pv-mobile-mode .pv-audio-modern {
+        width: 100%;
+        max-width: calc(100vw - 24px);
+        min-height: auto;
+        margin: 0;
+    }
+
+    body.pv-mobile-mode .pv-audio-main {
+        flex-direction: column;
+        gap: 16px;
+        padding: 24px 20px 16px;
+    }
+
+    body.pv-mobile-mode .pv-audio-left {
+        width: 100%;
+        gap: 12px;
+    }
+
+    body.pv-mobile-mode .pv-audio-disc-wrap {
+        width: 150px;
+        height: 150px;
+    }
+
+    body.pv-mobile-mode .pv-audio-right {
+        width: 100%;
+        height: 180px;
+        flex: none;
+    }
+
+    body.pv-mobile-mode .pv-audio-lyrics {
+        font-size: 14px;
+        padding: 14px 12px;
+        line-height: 1.9;
+    }
+
+    body.pv-mobile-mode .pv-audio-controls-modern {
+        padding: 0 20px 18px;
+        gap: 12px;
+    }
+
+    body.pv-mobile-mode .pv-audio-playlist {
+        right: 12px;
+        bottom: 100px;
+        width: calc(100% - 24px);
+        max-width: 280px;
+    }
+
+    body.pv-mobile-mode .pv-audio-play-btn {
+        width: 54px;
+        height: 54px;
+        font-size: 18px;
+    }
+
+    body.pv-mobile-mode .pv-audio-prev-btn,
+    body.pv-mobile-mode .pv-audio-next-btn,
+    body.pv-mobile-mode .pv-audio-list-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 14px;
+    }
+
+    /* ===== 文档框架移动端边距 ===== */
+    body.pv-mobile-mode .pv-doc-frame {
+        margin: 0 8px;
+        max-height: calc(100vh - 152px);
+        border-radius: 12px;
+    }
+
+    body.pv-mobile-mode .pv-doc-body {
+        padding: 14px;
+        font-size: 14px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    body.pv-mobile-mode .pv-doc-body.code-preview {
+        font-size: 12px;
+    }
+
+    body.pv-mobile-mode .pv-doc-body.markdown-body {
+        padding: 18px 16px;
+    }
+
+    body.pv-mobile-mode .markdown-content {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    body.pv-mobile-mode .markdown-content h1 { font-size: 1.5em; }
+    body.pv-mobile-mode .markdown-content h2 { font-size: 1.3em; }
+    body.pv-mobile-mode .markdown-content h3 { font-size: 1.15em; }
+
+    body.pv-mobile-mode .markdown-content pre {
+        padding: 12px;
+        font-size: 12px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* ===== ZIP 预览移动端 ===== */
+    body.pv-mobile-mode .pv-zip-frame {
+        margin: 0 8px;
+        max-height: calc(100vh - 152px);
+        border-radius: 12px;
+    }
+
+    body.pv-mobile-mode .pv-zip-node {
+        grid-template-columns: 16px 18px minmax(100px, 1fr) 64px 64px 96px;
+        gap: 6px;
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    body.pv-mobile-mode .pv-zip-summary {
+        gap: 10px;
+        padding: 10px 12px;
+    }
+
+    body.pv-mobile-mode .pv-zip-stat-value {
+        font-size: 13px;
+    }
+
+    body.pv-mobile-mode .pv-zip-tree {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* ===== Excel 移动端 ===== */
+    body.pv-mobile-mode .excel-frame .pv-tabs-bar {
+        padding: 6px 10px;
+    }
+
+    body.pv-mobile-mode .excel-frame .pv-tab {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    body.pv-mobile-mode .pv-tab-hint {
+        display: none;
+    }
+
+    body.pv-mobile-mode .pv-excel-table-wrap,
+    body.pv-mobile-mode .excel-body {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* ===== Word 移动端 ===== */
+    body.pv-mobile-mode .word-body .document-container {
+        padding: 12px;
+    }
+
+    body.pv-mobile-mode .word-body .page {
+        margin-bottom: 12px !important;
+    }
+
+    /* ===== PDF 移动端：iframe 区域上移避免被底部栏遮挡 ===== */
+    body.pv-mobile-mode .pv-pdf-wrap {
+        bottom: 76px;
+    }
+
+    /* ===== 错误态移动端 ===== */
+    body.pv-mobile-mode .preview-error {
+        padding: 20px;
+    }
+
+    body.pv-mobile-mode .preview-error-icon {
+        font-size: 44px;
+    }
+
+    body.pv-mobile-mode .preview-error-title {
+        font-size: 16px;
+    }
+
+    body.pv-mobile-mode .preview-error-message {
+        font-size: 13px;
+    }
+
+    body.pv-mobile-mode .preview-error-btn {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+
+    /* ===== 加载态移动端 ===== */
+    body.pv-mobile-mode .preview-loading-ring {
+        width: 40px;
+        height: 40px;
+    }
+
+    body.pv-mobile-mode .preview-loading p {
+        font-size: 12px;
+    }
+
+    /* ===== 滑动切换提示（首次打开时短暂显示） ===== */
+    body.pv-mobile-mode .pv-mobile-hint {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 35;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.6);
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 12px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        white-space: nowrap;
+    }
+
+    body.pv-mobile-mode .pv-mobile-hint.show {
+        opacity: 1;
+    }
+}
+
+/* 超窄屏微调 */
+@media (max-width: 380px) {
+    body.pv-mobile-mode .preview-file-name {
+        max-width: 32vw;
+    }
+
+    body.pv-mobile-mode .pv-mobile-bar {
+        padding: 0 4px;
+    }
+
+    body.pv-mobile-mode .pv-mobile-bar-btn {
+        font-size: 16px;
+    }
+}

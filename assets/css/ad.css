@@ -1,0 +1,99 @@
+/* 分享页广告区域 */
+.fluent-ad-section {
+    margin-top: 20px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* 暗色模式 */
+.dark .fluent-ad-section {
+    background: rgba(40, 40, 45, 0.7);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.fluent-ad-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.fluent-ad-label {
+    font-size: 11px;
+    color: #888;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.dark .fluent-ad-label {
+    color: #aaa;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.fluent-ad-grid {
+    display: grid;
+    gap: 12px;
+}
+
+/* 1 个广告：居中 */
+.fluent-ad-grid.fluent-ad-count-1 {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* 2 个广告：两列 */
+.fluent-ad-grid.fluent-ad-count-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+/* 3 个广告：三列 */
+.fluent-ad-grid.fluent-ad-count-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.fluent-ad-card {
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+}
+
+.fluent-ad-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.fluent-ad-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* 移动端：单列 */
+@media (max-width: 640px) {
+    .fluent-ad-grid.fluent-ad-count-1,
+    .fluent-ad-grid.fluent-ad-count-2,
+    .fluent-ad-grid.fluent-ad-count-3 {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+}
+
+/* 广告设置卡片高亮闪烁 */
+@keyframes fluentAdHighlight {
+    0%, 100% { box-shadow: var(--shadow-sm); border-color: var(--bg-glass-border); }
+    50% { box-shadow: 0 0 0 3px var(--accent-secondary, #3b82f6); border-color: var(--accent-secondary, #3b82f6); }
+}
+
+.fluent-ad-highlight {
+    animation: fluentAdHighlight 0.8s ease-in-out 3;
+}

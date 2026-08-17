@@ -1,0 +1,601 @@
+:root {
+  --fluent-bg-primary: #f3f3f3;
+  --fluent-bg-secondary: #faf9f8;
+  --fluent-bg-card: #ffffff;
+  --fluent-bg-card-hover: #f8f8f8;
+  --fluent-bg-layer: rgba(255, 255, 255, 0.7);
+  --fluent-bg-acrylic: rgba(243, 243, 243, 0.9);
+
+  --fluent-border-default: #e5e5e5;
+  --fluent-border-strong: #d1d1d1;
+  --fluent-border-focus: #0078d4;
+
+  --fluent-accent: #0078d4;
+  --fluent-accent-hover: #106ebe;
+  --fluent-accent-active: #005a9e;
+  --fluent-accent-light: rgba(0, 120, 212, 0.08);
+  --fluent-accent-text: #0078d4;
+
+  --fluent-text-primary: #1a1a1a;
+  --fluent-text-secondary: #616161;
+  --fluent-text-tertiary: #9e9e9e;
+  --fluent-text-inverse: #ffffff;
+
+  --fluent-success: #0f7b0f;
+  --fluent-success-bg: #dff6dd;
+  --fluent-warning: #986f0b;
+  --fluent-warning-bg: #fff4ce;
+  --fluent-error: #b10e1c;
+  --fluent-error-bg: #fde7e9;
+  --fluent-info: #0078d4;
+  --fluent-info-bg: #e5f1fb;
+
+  --fluent-radius-sm: 4px;
+  --fluent-radius-md: 8px;
+  --fluent-radius-lg: 12px;
+  --fluent-radius-xl: 16px;
+
+  --fluent-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.08);
+  --fluent-shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.12);
+  --fluent-shadow-flyout: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.16);
+  --fluent-shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.16), 0 0 1px rgba(0, 0, 0, 0.2);
+  --fluent-shadow-focus: 0 0 0 2px var(--fluent-accent);
+
+  --fluent-font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  --fluent-font-weight-regular: 400;
+  --fluent-font-weight-medium: 500;
+  --fluent-font-weight-semibold: 600;
+  --fluent-font-weight-bold: 700;
+
+  --fluent-transition-fast: 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  --fluent-transition-default: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --fluent-transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root.dark {
+  --fluent-bg-primary: #202020;
+  --fluent-bg-secondary: #2d2d2d;
+  --fluent-bg-card: #383838;
+  --fluent-bg-card-hover: #404040;
+  --fluent-bg-layer: rgba(32, 32, 32, 0.7);
+  --fluent-bg-acrylic: rgba(32, 32, 32, 0.9);
+
+  --fluent-border-default: #454545;
+  --fluent-border-strong: #555555;
+  --fluent-border-focus: #4cc2ff;
+
+  --fluent-accent: #4cc2ff;
+  --fluent-accent-hover: #69c7ff;
+  --fluent-accent-active: #3bb4f0;
+  --fluent-accent-light: rgba(76, 194, 255, 0.12);
+  --fluent-accent-text: #4cc2ff;
+
+  --fluent-text-primary: #f3f3f3;
+  --fluent-text-secondary: #c8c8c8;
+  --fluent-text-tertiary: #9e9e9e;
+
+  --fluent-success: #6ccb5f;
+  --fluent-success-bg: rgba(108, 203, 95, 0.15);
+  --fluent-warning: #fde300;
+  --fluent-warning-bg: rgba(253, 227, 0, 0.15);
+  --fluent-error: #ff99a4;
+  --fluent-error-bg: rgba(255, 153, 164, 0.15);
+  --fluent-info: #4cc2ff;
+  --fluent-info-bg: rgba(76, 194, 255, 0.15);
+
+  --fluent-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.4);
+  --fluent-shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.28), 0 0 1px rgba(0, 0, 0, 0.48);
+  --fluent-shadow-flyout: 0 8px 32px rgba(0, 0, 0, 0.36), 0 0 1px rgba(0, 0, 0, 0.48);
+  --fluent-shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.44), 0 0 1px rgba(0, 0, 0, 0.56);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.fluent-share-page {
+  font-family: var(--fluent-font-family);
+  background: #fff;
+  color: var(--fluent-text-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+:root.dark .fluent-share-page {
+  background: #000;
+}
+
+.fluent-share-container {
+  width: 100%;
+  max-width: 400px;
+  animation: fluentFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fluentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.fluent-share-card {
+  background: var(--fluent-bg-card);
+  border: 1px solid var(--fluent-border-default);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02);
+  padding: 40px 36px 32px;
+  transition: var(--fluent-transition-default);
+}
+
+.fluent-share-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.fluent-share-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, var(--fluent-accent), #005a9e);
+  border-radius: var(--fluent-radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: var(--fluent-text-inverse);
+  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.24);
+  transition: var(--fluent-transition-slow);
+}
+
+.fluent-share-card:hover .fluent-share-icon {
+  transform: scale(1.05) rotate(-3deg);
+  box-shadow: 0 6px 16px rgba(0, 120, 212, 0.32);
+}
+
+.fluent-share-title {
+  font-size: 24px;
+  font-weight: var(--fluent-font-weight-semibold);
+  color: var(--fluent-text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.fluent-share-subtitle {
+  font-size: 14px;
+  color: var(--fluent-text-secondary);
+  line-height: 1.5;
+}
+
+.fluent-file-preview {
+  background: var(--fluent-bg-secondary);
+  border: 1px solid var(--fluent-border-default);
+  border-radius: var(--fluent-radius-lg);
+  padding: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: var(--fluent-transition-default);
+}
+
+.fluent-file-preview:hover {
+  background: var(--fluent-bg-card-hover);
+  border-color: var(--fluent-border-strong);
+}
+
+.fluent-file-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--fluent-radius-md);
+  background: var(--fluent-accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--fluent-accent-text);
+  flex-shrink: 0;
+}
+
+.fluent-file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.fluent-file-name {
+  font-size: 15px;
+  font-weight: var(--fluent-font-weight-semibold);
+  color: var(--fluent-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 4px;
+}
+
+.fluent-file-size {
+  font-size: 13px;
+  color: var(--fluent-text-secondary);
+}
+
+.fluent-form {
+  margin-bottom: 20px;
+}
+
+.fluent-form-group {
+  margin-bottom: 16px;
+}
+
+.fluent-form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: var(--fluent-font-weight-medium);
+  color: var(--fluent-text-primary);
+  margin-bottom: 8px;
+}
+
+.fluent-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--fluent-border-default);
+  border-radius: var(--fluent-radius-md);
+  background: var(--fluent-bg-card);
+  color: var(--fluent-text-primary);
+  font-size: 14px;
+  font-family: var(--fluent-font-family);
+  transition: var(--fluent-transition-fast);
+}
+
+.fluent-input:hover {
+  border-color: var(--fluent-border-strong);
+}
+
+.fluent-input:focus {
+  outline: none;
+  border-color: var(--fluent-border-focus);
+  box-shadow: var(--fluent-shadow-focus);
+}
+
+.fluent-input::placeholder {
+  color: var(--fluent-text-tertiary);
+}
+
+.fluent-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--fluent-radius-md);
+  font-family: var(--fluent-font-family);
+  font-size: 14px;
+  font-weight: var(--fluent-font-weight-medium);
+  cursor: pointer;
+  transition: var(--fluent-transition-fast);
+  white-space: nowrap;
+}
+
+.fluent-btn-primary {
+  background: var(--fluent-accent);
+  color: var(--fluent-text-inverse);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.fluent-btn-primary:hover {
+  background: var(--fluent-accent-hover);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.fluent-btn-primary:active {
+  background: var(--fluent-accent-active);
+  transform: scale(0.98);
+}
+
+.fluent-btn-block {
+  width: 100%;
+}
+
+.fluent-btn-secondary {
+  background: var(--fluent-bg-card);
+  color: var(--fluent-text-primary);
+  border: 1px solid var(--fluent-border-default);
+}
+
+.fluent-btn-secondary:hover {
+  background: var(--fluent-bg-secondary);
+  border-color: var(--fluent-border-strong);
+}
+
+.fluent-error-message {
+  display: none;
+  padding: 12px 16px;
+  background: var(--fluent-error-bg);
+  border: 1px solid var(--fluent-error);
+  border-radius: var(--fluent-radius-md);
+  color: var(--fluent-error);
+  font-size: 13px;
+  margin-bottom: 16px;
+  animation: fluentShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes fluentShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.fluent-empty-state {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.fluent-empty-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  background: var(--fluent-bg-secondary);
+  border: 1px solid var(--fluent-border-default);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: var(--fluent-text-tertiary);
+  animation: fluentPulse 3s ease-in-out infinite;
+}
+
+@keyframes fluentPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+.fluent-file-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.fluent-file-size {
+  color: var(--fluent-text-secondary);
+}
+
+.fluent-file-ext {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: var(--fluent-radius-sm);
+  background: var(--fluent-bg-secondary);
+  border: 1px solid var(--fluent-border-default);
+  font-size: 11px;
+  font-weight: var(--fluent-font-weight-semibold);
+  color: var(--fluent-text-tertiary);
+  letter-spacing: 0.03em;
+}
+
+.fluent-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.fluent-input-wrap i {
+  position: absolute;
+  left: 12px;
+  color: var(--fluent-text-tertiary);
+  font-size: 14px;
+  pointer-events: none;
+}
+.fluent-input-wrap .fluent-input {
+  padding-left: 36px;
+}
+
+.fluent-share-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--fluent-border-default);
+  text-align: center;
+  font-size: 12px;
+  color: var(--fluent-text-tertiary);
+  letter-spacing: 0.02em;
+}
+
+.fluent-empty-title {
+  font-size: 18px;
+  font-weight: var(--fluent-font-weight-semibold);
+  color: var(--fluent-text-primary);
+  margin-bottom: 8px;
+}
+
+.fluent-empty-desc {
+  font-size: 14px;
+  color: var(--fluent-text-secondary);
+}
+
+/* Share List Styles */
+.fluent-share-list-page {
+  padding: 0;
+}
+
+.fluent-share-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.fluent-share-list-title {
+  font-size: 20px;
+  font-weight: var(--fluent-font-weight-semibold);
+  color: var(--fluent-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fluent-share-list-title i {
+  color: var(--fluent-accent);
+}
+
+.fluent-share-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fluent-share-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--fluent-bg-card);
+  border: 1px solid var(--fluent-border-default);
+  border-radius: var(--fluent-radius-lg);
+  box-shadow: var(--fluent-shadow-card);
+  transition: var(--fluent-transition-default);
+  animation: fluentSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.fluent-share-list-item:nth-child(1) { animation-delay: 0.05s; }
+.fluent-share-list-item:nth-child(2) { animation-delay: 0.10s; }
+.fluent-share-list-item:nth-child(3) { animation-delay: 0.15s; }
+.fluent-share-list-item:nth-child(4) { animation-delay: 0.20s; }
+.fluent-share-list-item:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes fluentSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fluent-share-list-item:hover {
+  background: var(--fluent-bg-card-hover);
+  border-color: var(--fluent-border-strong);
+  box-shadow: var(--fluent-shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.fluent-share-list-item.expired {
+  opacity: 0.5;
+}
+
+.fluent-share-list-item.disabled {
+  opacity: 0.4;
+}
+
+.fluent-share-item-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.fluent-share-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--fluent-radius-md);
+  background: var(--fluent-accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--fluent-accent-text);
+  flex-shrink: 0;
+}
+
+.fluent-share-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.fluent-share-item-name {
+  font-size: 14px;
+  font-weight: var(--fluent-font-weight-semibold);
+  color: var(--fluent-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 4px;
+}
+
+.fluent-share-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--fluent-text-secondary);
+}
+
+.fluent-share-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--fluent-radius-sm);
+  font-size: 11px;
+  font-weight: var(--fluent-font-weight-medium);
+}
+
+.fluent-badge-expired {
+  background: var(--fluent-error-bg);
+  color: var(--fluent-error);
+}
+
+.fluent-badge-password {
+  background: var(--fluent-warning-bg);
+  color: var(--fluent-warning);
+}
+
+.fluent-badge-active {
+  background: var(--fluent-success-bg);
+  color: var(--fluent-success);
+}
+
+.fluent-share-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.fluent-action-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: var(--fluent-radius-md);
+  color: var(--fluent-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: var(--fluent-transition-fast);
+}
+
+.fluent-action-btn:hover {
+  background: var(--fluent-accent-light);
+  color: var(--fluent-accent-text);
+}
+
+.fluent-action-btn.danger:hover {
+  background: var(--fluent-error-bg);
+  color: var(--fluent-error);
+}
+
+/* Dark mode adjustments */

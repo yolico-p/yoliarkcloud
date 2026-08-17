@@ -1,0 +1,5 @@
+# Robots.txt for 柚舟Cloud
+# Block all search engines from indexing this site
+
+User-agent: *
+Disallow: /

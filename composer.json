@@ -1,0 +1,27 @@
+{
+    "name": "yolico/yoliarkcloud",
+    "description": "轻量个人网盘系统，零配置部署，安全优先",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "ext-pdo": "*",
+        "ext-sqlite3": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-gd": "*",
+        "ext-curl": "*",
+        "ext-fileinfo": "*",
+        "ext-openssl": "*",
+        "ext-zip": "*",
+        "ext-bcmath": "*",
+        "chillerlan/php-qrcode": "^5.0"
+    },
+    "license": "AGPL-3.0-only",
+    "authors": [
+        {
+            "name": "yolico",
+            "email": "mail@hiyy.top"
+        }
+    ],
+    "minimum-stability": "stable"
+}
