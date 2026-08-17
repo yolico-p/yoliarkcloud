@@ -1,31 +1,13 @@
 {
-	# 全局选项
-	frankenphp
-	# 开发环境可注释掉下面这行来关闭自动 HTTPS
 	# auto_https off
 }
 
-# 监听 80 和 443 端口
-# 生产环境用域名替换 localhost，自动签发 Let's Encrypt 证书
-:80, :443 {
-	# 数据目录（当前工作目录）
+:9527 {
 	root * ./
-
-	# FrankenPHP 内置压缩（替代 PHP 层的 ob_start）
 	encode zstd gzip
-
-	# PHP 服务器
+	@blocked {
+		path /storage/* /config/* /framework/* /.git/* /.trae/*
+	}
+	respond @blocked 404
 	php_server
-
-	# 静态文件缓存
-	header /assets/* {
-		Cache-Control "public, max-age=31536000, immutable"
-	}
-
-	# 安全头
-	header {
-		X-Content-Type-Options "nosniff"
-		X-Frame-Options "SAMEORIGIN"
-		Referrer-Policy "strict-origin-when-cross-origin"
-	}
 }
